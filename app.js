@@ -4,11 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Importing sequelize instance 
+const { sequelize } = require("./models");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -37,5 +38,23 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+//Use the sequelize.sync() method to sync the model with the database
+(async() => {
+ try {
+   //validate connection
+    await sequelize.authenticate();
+    console.log('Hooray! Connection established.');
+    await sequelize.sync({ force: true});
+    console.log('All models were synchronized to the database!');
+  //log error to console
+ } catch (error) {
+   console.log('Uh oh! Connection has not been established.', error);
+ }
+}
+) ();
+
+
+
+
 
 module.exports = app;
