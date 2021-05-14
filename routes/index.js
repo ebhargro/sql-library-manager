@@ -3,14 +3,12 @@ var router = express.Router();
 const { Book } = require('../models');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
- (async () => {
-     await Book.findAll();
-     console.log('TEST');
-     res.json();
-}
- );
+router.get('/', async function (req, res, next) {
+  // res.redirect("/books");
+  const books = await Book.findAll();
+  console.log(books);
+  res.json(books);
+
 });
 
 module.exports = router;
