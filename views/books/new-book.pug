@@ -3,7 +3,7 @@ extends ../layout
 block content
 
     h1= title
-    form(action="/books/new" method="post")
+    form(action="/new" method="post")
     p 
         label(for="title") Title 
         input(name="title" type="text" id="title")
@@ -19,4 +19,4 @@ block content
     p 
         input(type="submit" value="Add New Book")
     p 
-        a(class="button" href="/books") Cancel
+        a(class="button" href="/") Cancel

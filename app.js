@@ -58,7 +58,6 @@ app.use(function(err, req, res, next) {
    //validate connection
     await sequelize.authenticate();
     console.log('Hooray! Connection established.');
-    await sequelize.sync({ force: true});
     console.log('All models were synchronized to the database!');
   //log error to console
  } catch (error) {
