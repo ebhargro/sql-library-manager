@@ -1,3 +1,6 @@
+//Treehouse Techdegree Project 8 by Ebony Hargro
+//Aiming for: Meets
+
 var express = require('express');
 var router = express.Router();
 const Book = require('../models/').Book;
@@ -26,11 +29,13 @@ router.get('/new', asyncHandler(async (req, res, next) => {
   res.render('books/new-book', { title: "Create New Book", book: {},});
 }));
 
-//Post new book to the database
-router.post('/new', asyncHandler(async (req, res, next) => {
+//Post new book into the database and navigate back to library collection
+router.post('/new', asyncHandler(async (req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
+    //Testing to make sure correct book entry is generated
+    console.log(book);
     res.redirect("/books");
   } catch (error) {
     if(error.name === 'SequelizeValidationError') {
@@ -47,6 +52,8 @@ router.get('/:id', asyncHandler( async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   if (book) {
     res.render('books/update-book', { title: book.title, book});
+  } else {
+    throw error;
   }
 }));
 //Updates book info in the database
@@ -59,7 +66,7 @@ router.post('/:id', asyncHandler( async (req, res, next) => {
       res.redirect("/books");
     } else {
       const err = new Error();
-      err.message = "We don't have this book in our library, sorry! Please try another book. :books:"
+      err.message = "We don't have this book in our library, sorry! Please try another book."
       err.status = 404;
       next(err);
     }
