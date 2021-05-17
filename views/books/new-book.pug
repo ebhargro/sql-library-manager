@@ -3,7 +3,12 @@ extends ../layout
 block content
 
     h1= title
-    form(action="/new" method="post")
+    form(action="/books/new" method="post")
+        if errors
+            h3 Oh no!
+            ul
+                each error in errors
+                    li= error.message
     p 
         label(for="title") Title 
         input(name="title" type="text" id="title")
